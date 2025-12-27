@@ -16,12 +16,12 @@ class CommandNode:
 
 
 class RedirectNode:
-    def __init__(self, file_descriptor: int, target: str):
-        self.fd = file_descriptor
-        self.target = target
+    def __init__(self, file_descriptor: int, target_file: str):
+        self.file_descriptor = file_descriptor
+        self.target_file = target_file
 
     def __repr__(self):
-        return f"RedirectNode({self.fd}, {self.target})"
+        return f"RedirectNode({self.file_descriptor}, {self.target_file})"
 
 
 class CommandLineNode:
@@ -30,7 +30,7 @@ class CommandLineNode:
         self.redirects = redirects
 
     def __repr__(self):
-        return f"CommandLineNode({self.command}, redirects=[{self.redirects}])"
+        return f"CommandLineNode({self.command}, redirects={self.redirects})"
 
 
 ####################################################
@@ -98,7 +98,7 @@ def parse_redirection(tokens: CursorStream[Token]) -> RedirectNode:
     if file_descriptor is None:
         file_descriptor = 1
 
-    return RedirectNode(file_descriptor=file_descriptor, target=file_name)
+    return RedirectNode(file_descriptor=file_descriptor, target_file=file_name)
 
 
 def parser(tokens: CursorStream[Token]) -> CommandLineNode:
